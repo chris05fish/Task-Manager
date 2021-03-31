@@ -13,6 +13,7 @@
 	  {% if not table_data %}
 	  	</p>There are no task entries to display.</p>
 	  {% else %}
+      <a class="btn btn-secondary" href="/tasks/hide_completed/">Hide Completed Tasks</a>
 			<table class="table table-striped" border="1">
 	    <tr>
         <th>Description</th>
@@ -24,7 +25,11 @@
 	    	<tr>
 	      	<td>{{ row.description }}</td>
 	      	<td>{{ row.category }}</td>
-          <td>{{ row.completed }}</td>
+          <td>
+            <a href="?toggle_completed">
+              No
+            </a>
+          </td>
 	      	<td>
 	        	<a class="btn btn-primary" href="/tasks/edit/{{ row.id }}/">Edit</a>
 	        	<a class="btn btn-primary" href="#" onclick="confirmDeleteModal({{ row.id }})">Delete</a>

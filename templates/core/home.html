@@ -1,9 +1,122 @@
-<html>
-<head>
-  {% include "bootstrap.html" %}
-  {% load static %}
-</head>
-<body>
-  {% include "navigation.html" %}
-</body>
+<!DOCTYPE html>
+<html land="en">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+  </head>
+  <body>
+    {% include "bootstrap.html" %}
+    {% include "navigation.html" %}
+    <h2 class="page_header"> Organizer </h2>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="container-fluid">
+          <div class="jumbotron">
+            <div align="center">
+              <h2>Tasks</h2>
+              <div class="ct-chart ct-perfect-fourth" id="chart1"></div>
+              <a class="btn btn-primary" href='/tasks/'>Tasks</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="container-fluid">
+          <div class="jumbotron">
+            <div align="center">
+              <h2>Budget</h2>
+              <div class="ct-chart ct-perfect-fourth" id="chart2"></div>
+              <a class="btn btn-primary" href='/budget/'>Budget</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--chart definition-->
+  <script>
+/* Pie Chart code */
+    if({{completed}} == 'No') {
+      var data = {
+        labels: ['Completed'],
+        series: [0]
+      };
+    }
+    else{
+      var data = {
+        labels: ['Completed'],
+        series: [{{completed}}]
+      };
+    }
+    var responsiveOptions = [
+      ['screen and (min-width: 640px)', {
+        chartPadding: 80,
+        labelOffset: 100,
+        labelDirection: 'explode',
+        labelInterpolationFnc: function(value) {
+          return value;
+        }
+      }],
+      ['screen and (min-width: 1024px)', {
+        labelOffset: 100,
+        chartPadding: 80
+      }]
+    ];
+    var options = {
+      labelInterpolationFnc: function(value) {
+        return value[0]
+      }
+
+    };
+    new Chartist.Pie('#chart1', data, options, responsiveOptions);
+
+    /*code for bar chart*/
+
+    var data = {
+      labels: [],
+      series: [
+        [],
+        [],
+      ]
+    };
+
+    var temp_data = []
+    {% for items in description %}
+      temp_data.push('{{items}}')
+    {% endfor %}
+    data.labels = temp_data
+
+    var projected = []
+    {% for items in projected %}
+      projected.push({{items}})
+    {% endfor %}
+    data.series[0] = projected
+
+    var actual = []
+    {% for items in actual %}
+      actual.push({{items}})
+    {% endfor %}
+    data.series[1] = actual
+
+    var options = {
+      seriesBarDistance: 10
+    };
+
+    var responsiveOptions = [
+      ['screen and (max-width: 640px)', {
+        seriesBarDistance: 5,
+        axisX: {
+          labelInterpolationFnc: function (value) {
+            return value[0];
+          }
+        }
+      }]
+    ];
+
+    new Chartist.Bar('#chart2', data, options, responsiveOptions);
+  </script>
+  </body>
 </html>
