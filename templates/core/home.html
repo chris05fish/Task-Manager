@@ -39,16 +39,16 @@
     <!--chart definition-->
   <script>
 /* Pie Chart code */
-    if({{completed}} == 'No') {
+    if({{completed}} == 0 && {{pending}} == 0) {
       var data = {
-        labels: ['Completed'],
-        series: [0]
+        labels: ['Completed', 'Pending'],
+        series: [1, 0]
       };
     }
     else{
       var data = {
-        labels: ['Completed'],
-        series: [{{completed}}]
+        labels: ['Completed', 'Pending'],
+        series: [{{completed}}, {{pending}}]
       };
     }
     var responsiveOptions = [
