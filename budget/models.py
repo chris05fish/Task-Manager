@@ -15,5 +15,5 @@ class BudgetEntry(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=128)
     category = models.CharField(max_length=20, choices=options)
-    projected = models.CharField(max_length=20)
-    actual = models.CharField(max_length=20)
+    projected = models.PositiveIntegerField()
+    actual = models.PositiveIntegerField()

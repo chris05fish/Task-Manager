@@ -35,6 +35,11 @@
 	    {% endfor %}
 		  </table>
 		{% endif %}
+    {% if total >= 0 %}
+      <p>There is a projected budget surplus of ${{ total }}</p>
+    {% else %}
+      <p>There is a projected budget deficit of ${{ total }}</p>
+    {% endif %}
 	  <form method="GET" action="/budget/add/">
 	    <input type="submit" class="btn btn-primary" value = "Add Budget Item">
 	  </form>

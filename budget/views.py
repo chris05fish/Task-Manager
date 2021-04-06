@@ -13,8 +13,17 @@ def budget(request):
 		return redirect("/budget/")
 	else:
 		table_data = BudgetEntry.objects.filter(user=request.user)
+		sumProjected = 0
+		sumActual = 0
+		budgetObjects = BudgetEntry.objects.all()
+		for e in BudgetEntry.objects.all():
+			sumProjected += e.projected
+			sumActual += e.actual
+		total = sumProjected - sumActual
 		context = {
-		"table_data": table_data
+		"table_data": table_data,
+		"total": total,
+		"budgetObjects": budgetObjects
 		}
 		return render(request, 'budget/budget.html', context)
 

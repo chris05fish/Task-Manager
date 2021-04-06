@@ -17,7 +17,7 @@
           <div class="jumbotron">
             <div align="center">
               <h2>Tasks</h2>
-              <div class="ct-chart ct-perfect-fourth" id="chart1"></div>
+              <div class="ct-chart ct-perfect-fourth" id="chart2"></div>
               <a class="btn btn-primary" href='/tasks/'>Tasks</a>
             </div>
           </div>
@@ -28,7 +28,7 @@
           <div class="jumbotron">
             <div align="center">
               <h2>Budget</h2>
-              <div class="ct-chart ct-perfect-fourth" id="chart2"></div>
+              <div class="ct-chart ct-perfect-fourth" id=".ct-chart"></div>
               <a class="btn btn-primary" href='/budget/'>Budget</a>
             </div>
           </div>
@@ -36,68 +36,30 @@
       </div>
     </div>
 
-    <!--chart definition-->
-  <script>
-/* Pie Chart code */
-    if({{completed}} == 0 && {{pending}} == 0) {
-      var data = {
-        labels: ['Completed', 'Pending'],
-        series: [1, 0]
-      };
-    }
-    else{
-      var data = {
-        labels: ['Completed', 'Pending'],
-        series: [{{completed}}, {{pending}}]
-      };
-    }
-    var responsiveOptions = [
-      ['screen and (min-width: 640px)', {
-        chartPadding: 80,
-        labelOffset: 100,
-        labelDirection: 'explode',
-        labelInterpolationFnc: function(value) {
-          return value;
-        }
-      }],
-      ['screen and (min-width: 1024px)', {
-        labelOffset: 100,
-        chartPadding: 80
-      }]
-    ];
-    var options = {
-      labelInterpolationFnc: function(value) {
-        return value[0]
-      }
-
-    };
-    new Chartist.Pie('#chart1', data, options, responsiveOptions);
-
-    /*code for bar chart*/
-
+    <script>
     var data = {
       labels: [],
       series: [
-        [],
-        [],
+      [],
+      []
       ]
     };
 
     var temp_data = []
-    {% for items in description %}
-      temp_data.push('{{items}}')
+    {% for items in budgetObjects %}
+      temp_data.push({{items.description}})
     {% endfor %}
     data.labels = temp_data
 
     var projected = []
-    {% for items in projected %}
-      projected.push({{items}})
+    {% for items in budgetObjects %}
+      projected.push({{items.projected}})
     {% endfor %}
     data.series[0] = projected
 
     var actual = []
-    {% for items in actual %}
-      actual.push({{items}})
+    {% for items in budgetObjects %}
+      actual.push({{items.actual}})
     {% endfor %}
     data.series[1] = actual
 
@@ -106,17 +68,25 @@
     };
 
     var responsiveOptions = [
-      ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
-        axisX: {
-          labelInterpolationFnc: function (value) {
-            return value[0];
-          }
+    /*['screen and (min-width: 641px) and (max-width: 1024px)', {
+      seriesBarDistance: 10,
+      axisX: {
+        labelInterpolationFnc: function (value) {
+          return value;
         }
-      }]
+      }
+    }],*/
+    ['screen and (max-width: 640px)', {
+      seriesBarDistance: 5,
+      axisX: {
+        labelInterpolationFnc: function (value) {
+          return value[0];
+        }
+      }
+    }]
     ];
 
-    new Chartist.Bar('#chart2', data, options, responsiveOptions);
-  </script>
+    new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
+    </script>
   </body>
 </html>

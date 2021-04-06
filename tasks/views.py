@@ -13,6 +13,7 @@ def tasks(request):
 		return redirect("/tasks/")
 	if (request.method == "GET" and "toggle_completed" in request.GET):
 		id = request.GET["toggle_completed"]
+		print("hello")
 		taskObject = TasksEntry.objects.get(id=id)
 		if taskObject.completed == "No":
 			taskObject.completed = "Yes"

@@ -26,8 +26,8 @@
 	      	<td>{{ row.description }}</td>
 	      	<td>{{ row.category }}</td>
           <td>
-            <a href="?toggle_completed/tasks/{{ row.id }}">
-              No
+            <a href="?toggle_completed={{ row.id }}">
+              {{ row.completed }}
             </a>
           </td>
 	      	<td>
